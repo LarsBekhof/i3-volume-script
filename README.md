@@ -10,7 +10,7 @@ This script is meant to be used with i3blocks
 
 ```
 [volume]
-command=pactl list sinks | grep -o -E "([0-9]{2}%)|([0-9]{3}%)"
+command=/path/to/script/volume
 label=♫
 interval=1
 ```
