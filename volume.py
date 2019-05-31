@@ -1,5 +1,8 @@
 import subprocess
 import re
+import sys
+
+NO_SINK_CHAR = '-%'
 
 result = subprocess.run(['pactl', 'list', 'sinks'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
@@ -15,6 +18,15 @@ for x in range(len(splitOutput)):
 
 # These regexs can probably be more elegant
 output = re.search('Volume:.*/.*([0-9]{2}|[0-9]%).*/', runningOutput)
+
+if output is None or len(output.group(0).strip()) == 0:
+    print(NO_SINK_CHAR)
+    sys.exit()
+
 output = re.search('[0-9]*%', output.group(0))
+
+if output is None or len(output.group(0).strip()) == 0:
+    print(NO_SINK_CHAR)
+    sys.exit()
 
 print(output.group(0))
