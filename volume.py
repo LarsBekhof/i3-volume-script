@@ -1,9 +1,17 @@
 import subprocess
 import re
 import sys
+from os import path
+from os.path import expanduser
 
-lastKnownVolumeFile = '/home/lars/Code/i3-volume-script/.last-known-volume'
+lastKnownVolumeFile = expanduser('~/.config/last-known-volume')
+f = open(lastKnownVolumeFile, 'r')
 
+# If there is no file create one
+if not path.exists(lastKnownVolumeFile):
+    f.write('')
+
+# Run pactl command
 result = subprocess.run(['pactl', 'list', 'sinks'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
 # Split output by sinks
@@ -19,7 +27,7 @@ for x in range(len(splitOutput)):
 # These regexs can probably be more elegant
 output = re.search('Volume:.*/.*([0-9]{2}|[0-9]%).*/', runningOutput)
 
-lastKnownVolume  = open(lastKnownVolumeFile).read()
+lastKnownVolume = f.read()
 
 if output is None or len(output.group(0).strip()) == 0:
     print(lastKnownVolume)
