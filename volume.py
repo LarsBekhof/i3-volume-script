@@ -29,7 +29,7 @@ output = re.search('Volume:.*/.*([0-9]{2}|[0-9]%).*/', runningOutput)
 
 lastKnownVolume = f.read()
 
-if output is None or len(output.group(0).strip()) == 0:
+if output is None:
     print(lastKnownVolume)
     sys.exit()
 
@@ -37,7 +37,7 @@ output = re.search('[0-9]*%', output.group(0))
 
 volume = output.group(0).strip()
 
-if output is None or len(volume) == 0:
+if output is None:
     print(lastKnownVolume)
     sys.exit()
 
