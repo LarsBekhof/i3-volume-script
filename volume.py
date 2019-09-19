@@ -27,11 +27,13 @@ if output is None or len(output.group(0).strip()) == 0:
 
 output = re.search('[0-9]*%', output.group(0))
 
-if output is None or len(output.group(0).strip()) == 0:
+volume = output.group(0).strip()
+
+if output is None or len(volume) == 0:
     print(lastKnownVolume)
     sys.exit()
 
 f = open(lastKnownVolumeFile, 'w+')
-f.write(output.group(0))
+f.write(volume)
 
-print(output.group(0))
+print(volume)
